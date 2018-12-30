@@ -71,7 +71,7 @@ $("#addMathThing").on("click", function(event) {
 
     // Test area to make sure the user's button has at least 10 giphs for it.
     // If there aren't 10, an error message will be shown and no button will be created.
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + mathInput + "&limit=2&api_key=dc6zaTOxFJmzC";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + mathInput + "&limit=2&api_key=s5YV67htRnR7LEiWhl7ueCGeFEzHlJwZ";
 
         $.ajax({ url: queryURL, method: "GET"}).done(function(response) {
 
@@ -91,22 +91,19 @@ $(document).on("click", ".math", display);
 
 function display() {
 
-    // This is just to clear out any error message (if there is one)
     $("#entry").empty();
 
     var mathTerm = $(this).attr("math-name");
 
-    // The GIPHY query.  This limits to 10 results
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + mathTerm + "&limit=10&api_key=dc6zaTOxFJmzC";
 
     $.ajax({ url: queryURL, method: "GET"}).done(function(response) {
 
-        // This runs 10 times (limit is 10 in query) to show all the GIPHY pictures from the website's response.
         for (var j = 0; j < response.data.length; j++) {
             
-            // Gets the animated gif URL
+      
             var active = response.data[j].images.fixed_width.url;
-            // Gets the still gif URL
+    
             var still = response.data[j].images.fixed_width_still.url;
             var rating = "Rating: " + (response.data[j].rating).toUpperCase();
 
