@@ -4,31 +4,31 @@
         <meta charset="UTF-8">
         <title>GIPHY API</title>
 
-        <!-- Added a link to Bootstrap-->
+        //Include Bootstrap
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         
-        <!-- This links to the jQuery Library -->
+        //Include Jquery Library
         <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     	
     </head>
 <body>
 
-<body background="https://s-media-cache-ak0.pinimg.com/originals/86/2a/8b/862a8b9f6c8c1e1b758866a1f0e4e61e.jpg">
+<body background="http://br.ygmedia.com/wp-content/uploads/2015/02/474ws-Tahitian-Style-web-HiDef.jpg">
 
-<h4 class="text-center" style="color: lime">Please click on a button to display 10 giphs and their rating, or add your own button with any search term you choose.</p><p>If there are less than 10 results for it, I will let you know.  Click on the picture to start/stop the animation.  Have fun!</h4>
+<h4 class="text-center" style="color: black">Please click on a button to display 10 giphs and their rating, or add your own button with any search term you choose.</p><p>If there are less than 10 results for it, I will let you know.  Click on the picture to start/stop the animation.  Have fun!</h4>
 
-<!-- This will be where the buttons are added and displayed. -->
+//Include buttons
 <div id="buttonItems"></div>
 
-<!-- This is the form to add a space-themed button to the array. -->
+//add buttons to the array 
 <form>
     <div class="row">
         <div class="col-md-3">
-            <input type="text" id="space-input" class="form-control" placeholder="Add something spacey...">
+            <input type="text" id="math-input" class="form-control" placeholder="Add something mathy...">
         </div>
-        <input id="addSpaceThing" type="submit" class="btn btn-success" value="MAKE IT SO #1!">
-        <!-- If there are any error messages, they will appear here -->
-        <span id="entry" style="color: white; background: red"></span>
+        <input id="addMathThing" type="submit" class="btn btn-success" value="MAKE IT SO #1!">
+        //where the alerts come in 
+        <span id="entry" style="color: white; background: yellow"></span>
     </div>
 </form>
 
@@ -43,19 +43,19 @@
 <script type="text/javascript">
 
     // This is the initial array.
-	var spaceStuff = ["Star Trek", "Comet", "Star", "Constellation", "Astrology", "Battlestar Galactica", "Galaxy", "Asteroid", "Star Wars", "Satellite", "Killer Clowns from Outer Space", "Solar Flare", "Light Year", "Black Hole", "Lost in Space"];
-    var spaceImage = "";
+	var mathStuff = ["Klein bottle", "homotopy", "Star", "Weaire-Phelan Structure", "combinatorics", "differential geometry", "optimization", "hexagon", "geometry", "group theory"];
+    var mathImage = "";
 
 // This function shows all the buttons at the top of the page.
 function showButtons () {
     $("#buttonItems").empty();
-    $("#space-input").val("");
+    $("#math-input").val("");
 
-    for (var i = 0; i < spaceStuff.length; i++) {
+    for (var i = 0; i < mathStuff.length; i++) {
         var button = $("<button class='btn btn-primary'>");
         button.addClass("space");
-        button.attr("space-name", spaceStuff[i]);
-        button.text(spaceStuff[i]);
+        button.attr("space-name", mathStuff[i]);
+        button.text(mathStuff[i]);
         $("#buttonItems").append(button);
         $("#buttonItems").append(" ");
     }
@@ -64,41 +64,41 @@ function showButtons () {
 showButtons();
 
 // This runs when the user clicks "Make it so #1", it adds it to the button array and updates the buttons.
-$("#addSpaceThing").on("click", function(event) {
+$("#addMathThing").on("click", function(event) {
     $("#entry").empty();
     event.preventDefault();
-    var spaceInput = $("#space-input").val().trim();
-    var spaceTerm = $(this).attr("space-name");
+    var mathInput = $("#math-input").val().trim();
+    var mathTerm = $(this).attr("math-name");
 
     // Test area to make sure the user's button has at least 10 giphs for it.
     // If there aren't 10, an error message will be shown and no button will be created.
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + spaceInput + "&limit=2&api_key=dc6zaTOxFJmzC";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + mathInput + "&limit=2&api_key=dc6zaTOxFJmzC";
 
         $.ajax({ url: queryURL, method: "GET"}).done(function(response) {
 
         if (response.pagination.total_count >= 10) {
-            spaceStuff.push(spaceInput);
+            mathStuff.push(mathInput);
             showButtons(); }
         else if (response.pagination.total_count === 0) {
             $("#entry").html(" Sorry, there were no results for this.  Please try again."); }
         else if (response.pagination.total_count === 1) { $("#entry").html(" Sorry, there was only 1 result for this.  Please try again."); }
         else { $("#entry").html(" Sorry, there were only " + response.pagination.total_count + " results for this.  Please try again."); }
-        $("#space-input").val("");
+        $("#math-input").val("");
         });
 
 });
 
-$(document).on("click", ".space", display);
+$(document).on("click", ".math", display);
 
 function display() {
 
     // This is just to clear out any error message (if there is one)
     $("#entry").empty();
 
-    var spaceTerm = $(this).attr("space-name");
+    var mathTerm = $(this).attr("math-name");
 
     // The GIPHY query.  This limits to 10 results
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + spaceTerm + "&limit=10&api_key=dc6zaTOxFJmzC";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + mathTerm + "&limit=10&api_key=dc6zaTOxFJmzC";
 
     $.ajax({ url: queryURL, method: "GET"}).done(function(response) {
 
@@ -112,7 +112,7 @@ function display() {
             var rating = "Rating: " + (response.data[j].rating).toUpperCase();
 
             // Creates the new img item
-            var spaceImage = $("<img>");
+            var mathImage = $("<img>");
             
             // This changes the text color of ratings to green so it can be seen against the space background image.
             $("#ratings").css("color", "green");
@@ -121,18 +121,18 @@ function display() {
             var ratingDiv = $("<div id='ratingDiv'>" + rating + "</div>");
             $(ratingDiv).css({"text-align":"center", "font-size":"20px", "width":"200", "display":"block"});
 
-            spaceImage.attr({"active":active, "still":still, "src":still, "state":"still"});
+            mathImage.attr({"active":active, "still":still, "src":still, "state":"still"});
 
             // This holds the new div for both rating and the image. Every image will have a rating on top of it.
             var ratingAndImage = $("<div>");
             $(ratingAndImage).css({"float":"left"});
-            $(ratingAndImage).prepend(ratingDiv, spaceImage);
+            $(ratingAndImage).prepend(ratingDiv, mathImage);
 
             // This adds the rating and image to the page.
             $("#ratings").prepend(ratingAndImage);
 
             // When the user clicks on a picture, this will either start or stop the animation of that picture.
-            $(spaceImage).on("click", function(event) {
+            $(mathImage).on("click", function(event) {
 
                 // This is just to clear out any error message (if there is one)
                 $("#entry").empty();
