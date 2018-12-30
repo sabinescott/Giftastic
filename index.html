@@ -4,10 +4,10 @@
         <meta charset="UTF-8">
         <title>GIPHY API</title>
 
-        //Include Bootstrap
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         
-        //Include Jquery Library
+       
         <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     	
     </head>
@@ -17,10 +17,10 @@
 
 <h4 class="text-center" style="color: black">Please click on a button to display 10 giphs and their rating, or add your own button with any search term you choose.</p><p>If there are less than 10 results for it, I will let you know.  Click on the picture to start/stop the animation.  Have fun!</h4>
 
-//Include buttons
+
 <div id="buttonItems"></div>
 
-//add buttons to the array 
+
 <form>
     <div class="row">
         <div class="col-md-3">
@@ -32,29 +32,28 @@
     </div>
 </form>
 
-<!-- This is where the ratings and images will be shown when the user clicks a movie button. --> 
 <div id="ratings"></div>
 
 
 
 
 
-<!-- Beginning of the javascript -->
+
 <script type="text/javascript">
 
-    // This is the initial array.
+    
 	var mathStuff = ["Klein bottle", "homotopy", "Star", "Weaire-Phelan Structure", "combinatorics", "differential geometry", "optimization", "hexagon", "geometry", "group theory"];
     var mathImage = "";
 
-// This function shows all the buttons at the top of the page.
+
 function showButtons () {
     $("#buttonItems").empty();
     $("#math-input").val("");
 
     for (var i = 0; i < mathStuff.length; i++) {
         var button = $("<button class='btn btn-primary'>");
-        button.addClass("space");
-        button.attr("space-name", mathStuff[i]);
+        button.addClass("math");
+        button.attr("math-name", mathStuff[i]);
         button.text(mathStuff[i]);
         $("#buttonItems").append(button);
         $("#buttonItems").append(" ");
@@ -111,30 +110,30 @@ function display() {
             var still = response.data[j].images.fixed_width_still.url;
             var rating = "Rating: " + (response.data[j].rating).toUpperCase();
 
-            // Creates the new img item
+        
             var mathImage = $("<img>");
             
-            // This changes the text color of ratings to green so it can be seen against the space background image.
+          
             $("#ratings").css("color", "green");
 
-            // This creates a new div for the rating so that it maintains the gifs size
+            
             var ratingDiv = $("<div id='ratingDiv'>" + rating + "</div>");
             $(ratingDiv).css({"text-align":"center", "font-size":"20px", "width":"200", "display":"block"});
 
             mathImage.attr({"active":active, "still":still, "src":still, "state":"still"});
 
-            // This holds the new div for both rating and the image. Every image will have a rating on top of it.
+            
             var ratingAndImage = $("<div>");
             $(ratingAndImage).css({"float":"left"});
             $(ratingAndImage).prepend(ratingDiv, mathImage);
 
-            // This adds the rating and image to the page.
+            
             $("#ratings").prepend(ratingAndImage);
 
-            // When the user clicks on a picture, this will either start or stop the animation of that picture.
+            
             $(mathImage).on("click", function(event) {
 
-                // This is just to clear out any error message (if there is one)
+                
                 $("#entry").empty();
                 
                 var state = $(this).attr("state");
